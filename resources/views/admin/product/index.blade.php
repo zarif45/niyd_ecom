@@ -10,21 +10,28 @@
                         <tr>
                             <th>SL</th>
                             <th>Name</th>
-                            <th>Description</th>
+                            <th>code</th>
                             <th>Image</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
+                        @foreach($products as $product)
                         <tr>
-                            <td>1212</td>
-                            <td>1212</td>
-                            <td>1212</td>
-                            <td>1212</td>
-                            <td>1212</td>
-                            <td>1212</td>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$product->name}}</td>
+                            <td>{{$product->code}}</td>
+                            <td><img src="{{asset($product->image)}}" alt="" height="50"></td>
+                            <td>{{$product->status ==1 ? 'Published' : 'Unpublished'}}</td>
+                            <td>
+                                <a href="{{route('product.detail',['id' => $product->id])}}" class="btn btn-info btn-sm">detail</a>
+                                <a href="{{route('product.edit',['id' => $product->id])}}" class="btn btn-success btn-sm">edit</a>
+                                <a href="{{route('product.delete',['id' => $product->id])}}" onclick=" return confirm('Are you sure to delete this!')" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+
                         </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

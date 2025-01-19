@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OtherImage extends Model
 {
-    public static $otherImage, $image, $imageName, $imageUrl, $directory;
+    public static $otherImage,$otherImages, $image, $imageName, $imageUrl, $directory;
 
     public static function getImageUrl($image)
     {
@@ -27,5 +27,27 @@ class OtherImage extends Model
             self::$otherImage->image      = self::getImageUrl($image);
             self::$otherImage->save();
         }
+    }
+
+    public static function updateOtherImage($id, $images)
+    {
+        self::deleteOtherImage($id);
+        self::newOtherImage($id, $images);
+    }
+
+
+    public static function deleteOtherImage($id)
+    {
+        self::$otherImages = OtherImage::where('product_id', $id)->get();
+
+        foreach (self::$otherImages as $otherImage)
+        {
+            if (file_exists($otherImage->image))
+            {
+                unlink($otherImage->image);
+            }
+            $otherImage->delete();
+        }
+        //self::newOtherImage($id, $images);
     }
 }
